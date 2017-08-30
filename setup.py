@@ -31,7 +31,7 @@ setup(
     author="Kyle Stark",
     author_email='kyle@goodrx.com',
     url='https://github.com/kstark/fwffr',
-    packages=find_packages(include=['fwffr']),
+    py_modules=['fwffr'],
     include_package_data=True,
     install_requires=requirements,
     license="MIT license",
