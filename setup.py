@@ -25,7 +25,7 @@ test_requirements = [
 
 setup(
     name='fwffr',
-    version='0.2.0',
+    version='0.3.0',
     description="Fixed-width field format reader",
     long_description=readme + '\n\n' + history,
     author="Kyle Stark",
