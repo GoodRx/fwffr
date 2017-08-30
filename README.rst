@@ -6,15 +6,15 @@ FWFFR
 .. image:: https://img.shields.io/pypi/v/fwffr.svg
         :target: https://pypi.python.org/pypi/fwffr
 
-.. image:: https://img.shields.io/travis/kstark/fwffr.svg
-        :target: https://travis-ci.org/kstark/fwffr
+.. image:: https://img.shields.io/travis/GoodRx/fwffr.svg
+        :target: https://travis-ci.org/GoodRx/fwffr
 
 .. image:: https://readthedocs.org/projects/fwffr/badge/?version=latest
         :target: https://fwffr.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/kstark/fwffr/shield.svg
-     :target: https://pyup.io/repos/github/kstark/fwffr/
+.. image:: https://pyup.io/repos/github/GoodRx/fwffr/shield.svg
+     :target: https://pyup.io/repos/github/GoodRx/fwffr/
      :alt: Updates
 
 

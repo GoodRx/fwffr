@@ -16,7 +16,7 @@ requirements = [
 ]
 
 setup_requirements = [
-    # TODO(kstark): put setup requirements (distutils extensions, etc.) here
+    # TODO(GoodRx): put setup requirements (distutils extensions, etc.) here
 ]
 
 test_requirements = [
@@ -30,7 +30,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author="Kyle Stark",
     author_email='kyle@goodrx.com',
-    url='https://github.com/kstark/fwffr',
+    url='https://github.com/GoodRx/fwffr',
     py_modules=['fwffr'],
     include_package_data=True,
     install_requires=requirements,
