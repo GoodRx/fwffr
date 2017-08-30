@@ -3,6 +3,8 @@
 Utilities related to parsing files
 """
 
+from collections import OrderedDict
+
 __all__ = [
     'FixedLengthError',
     'FixedLengthUnknownRecordTypeError',
@@ -58,11 +60,12 @@ class FixedLengthFieldParser(object):
         The file-like object to parse.
     fields
         Field specification. For files with homogeneous records, this should be
-        a list of tuples in the form (field_name, length_of_field). For files
-        that combine different types of records in the same file, a dictionary
-        can be passed whose keys are record type indicators, and whose values
-        are lists of tuples in the previously described format. For these
-        files, the record_type_func parameter MUST be passed.
+        a list of tuples in the form (field_name, length_of_field), or an
+        OrderedDict with items in the same format. For files that combine
+        different types of records in the same file, a dictionary can be passed
+        whose keys are record type indicators, and whose values are in the
+        previously described format for fields. For these files, the
+        record_type_func parameter MUST be passed.
     record_type_func
         For files with multiple record types, this must be a function that
         accepts a line from the file and returns a key into the fields dict.
@@ -126,6 +129,9 @@ class FixedLengthFieldParser(object):
         else:
             field_length_sequence = self.fields
 
+        if isinstance(field_length_sequence, OrderedDict):
+            field_length_sequence = field_length_sequence.iteritems()
+
         for field, field_length in field_length_sequence:
             # Check that fields are separated correctly
             if pointer and field_sep_len:
@@ -174,4 +180,3 @@ class FixedLengthFieldParser(object):
         def get_record_type(record_line):
             return record_line[position:position + length]
         return get_record_type
-
