@@ -4,6 +4,9 @@ Utilities related to parsing files
 """
 
 from collections import OrderedDict
+import sys
+
+PY3 = sys.version_info[0] == 3
 
 __all__ = [
     'FixedLengthError',
@@ -12,6 +15,13 @@ __all__ = [
     'FixedLengthJustificationError',
     'FixedLengthFieldParser',
 ]
+
+if PY3:
+    def iteritems(d, **kw):
+        return iter(d.items(**kw))
+else:
+    def iteritems(d, **kw):
+        return d.iteritems(**kw)
 
 
 class FixedLengthError(ValueError):
@@ -130,7 +140,7 @@ class FixedLengthFieldParser(object):
             field_length_sequence = self.fields
 
         if isinstance(field_length_sequence, OrderedDict):
-            field_length_sequence = field_length_sequence.iteritems()
+            field_length_sequence = iteritems(field_length_sequence)
 
         for field, field_length in field_length_sequence:
             # Check that fields are separated correctly
