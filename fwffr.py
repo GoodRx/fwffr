@@ -82,6 +82,9 @@ class FixedLengthFieldParser(object):
         For simple usage, a simple utility function
         FixedLengthFieldParser.generate_type_from_offset_func is provided,
         which generates a suitable function from a position and offset.
+    override_justification_error_func
+        Provide a hook to override justification errors for known issues
+        Should return None or the corrected value for the field
     field_separator
         A string or None indicating a separator between the fixed-length
         fields.  If provided, the existence of the separator between fields
@@ -99,11 +102,15 @@ class FixedLengthFieldParser(object):
     """
 
     def __init__(self, file_obj, fields, record_type_func=None,
-                 field_separator=None, right_justified=(), skip_justified=(),
-                 encoding=None, skip_unknown_types=True, strip=True):
+                 override_justification_error_func=None, field_separator=None,
+                 right_justified=(), skip_justified=(), encoding=None,
+                 skip_unknown_types=True, strip=True):
         self.file_obj = file_obj
         self.fields = fields
         self.record_type_func = record_type_func
+        self.override_justification_error_func = (
+            override_justification_error_func or (lambda f, v: None)
+        )
         self.field_separator = field_separator
         self.right_justified = right_justified
         self.skip_justified = skip_justified
@@ -153,7 +160,7 @@ class FixedLengthFieldParser(object):
             # Check that the field is empty or doesn't start with a space
             if not field_sep_len:
                 if self._invalid_just(field, value):
-                    override = self._override_just(field, value)
+                    override = self.override_justification_error_func(field, value)
                     if override is None:
                         raise FixedLengthJustificationError(field, value)
                     else:
@@ -174,15 +181,6 @@ class FixedLengthFieldParser(object):
         else:
             value = value.rstrip()[:1]
         return value.isspace()
-
-    @classmethod
-    def _override_just(cls, field, value):
-        """
-        Provide a hook to override justification errors for known issues
-
-        Should return None or the corrected value for the field
-        """
-        return None
 
     @classmethod
     def generate_type_from_offset_func(cls, position, length):
