@@ -18,7 +18,6 @@ Fixed-width field format reader
 
 
 * Free software: MIT license
-* Documentation: https://fwffr.readthedocs.io.
 
 
 Features
