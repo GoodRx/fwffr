@@ -8,7 +8,6 @@ import sys
 
 PY3 = sys.version_info[0] == 3
 
-__all__ = [
     'FixedLengthError',
     'FixedLengthUnknownRecordTypeError',
     'FixedLengthSeparatorError',
@@ -26,6 +25,9 @@ else:
 
 class FixedLengthError(ValueError):
     """ Base class for parsing errors """
+    
+    def __init__(self, message=None):
+        self.message = message
 
     def __str__(self):
         return self.message
