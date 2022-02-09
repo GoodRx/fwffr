@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """
 Utilities related to parsing files
 """
@@ -27,35 +26,58 @@ else:
 class FixedLengthError(ValueError):
     """ Base class for parsing errors """
 
-    def __str__(self):
-        return self.message
-
 
 class FixedLengthUnknownRecordTypeError(FixedLengthError):
-    """ Unknown record type encountered error """
+    """ Unknown record type encountered error
+
+    Arguments:
+        record_type (str): The type indicator of the unrecognized record.
+    """
     MESSAGE = "Unknown record type %r encountered"
 
     def __init__(self, record_type):
-        super(FixedLengthUnknownRecordTypeError, self).__init__(record_type)
-        self.message = self.MESSAGE % (record_type,)
-
+        self.record_type = record_type
+        super(FixedLengthUnknownRecordTypeError, self).__init__(
+            self.MESSAGE % (record_type,)
+        )
 
 class FixedLengthSeparatorError(FixedLengthError):
-    """ Separator not found error """
+    """ Separator not found error
+
+    Arguments:
+        field (str):
+            The name of the field that has no separator before it.
+        pointer (int):
+            The zero-indexed offset into the record where the separator was
+            expected.
+    """
     MESSAGE = "No field separator found before %r at %d"
 
     def __init__(self, field, pointer):
-        super(FixedLengthSeparatorError, self).__init__(field, pointer)
-        self.message = self.MESSAGE % (field, pointer)
+        self.field = field
+        self.pointer = pointer
+        super(FixedLengthSeparatorError, self).__init__(
+            self.MESSAGE % (field, pointer)
+        )
 
 
 class FixedLengthJustificationError(FixedLengthError):
-    """ Justification error """
+    """ Justification error
+
+    Arguments:
+        field (str):
+            The name of the field that was not justified correctly.
+        value (str):
+            The value of the malformed field.
+    """
     MESSAGE = "Field %r value %r is not justified correctly"
 
     def __init__(self, field, value):
-        super(FixedLengthJustificationError, self).__init__(field, value)
-        self.message = self.MESSAGE % (field, value)
+        self.field = field
+        self.value = value
+        super(FixedLengthJustificationError, self).__init__(
+            self.MESSAGE % (field, value)
+        )
 
 
 class FixedLengthFieldParser(object):

@@ -6,7 +6,7 @@
 
 import unittest
 
-from fwffr import fwffr
+import fwffr
 
 
 class TestFwffr(unittest.TestCase):
